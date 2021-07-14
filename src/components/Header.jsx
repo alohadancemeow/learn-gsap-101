@@ -24,19 +24,6 @@ const Header = ({ history }) => {
             menuName: 'Close'
         })
 
-        // if (state.clicked) return setState({
-        //     ...state,
-        //     clicked: !state.clicked,
-        //     menuName: 'Menu'
-        // })
-
-        // if (!state.clicked) return setState({
-        //     ...state,
-        //     clicked: !state.clicked,
-        //     menuName: 'Close'
-        // })
-
-
         state.clicked
             ? setState({
                 ...state,
@@ -51,12 +38,12 @@ const Header = ({ history }) => {
     }
 
     // # Determine if our menu button should be disabled.
-    const disableMenu = () => {
-        setDisabled(!disabled)
-        setTimeout(() => {
-            setDisabled(false)
-        }, 1200)
-    }
+    // const disableMenu = () => {
+    //     setDisabled(!disabled)
+    //     setTimeout(() => {
+    //         setDisabled(false)
+    //     }, 1200)
+    // }
 
 
     // # Effect for page changes
@@ -80,7 +67,7 @@ const Header = ({ history }) => {
                         </div>
                         <div className="menu">
                             <button disabled={disabled} onClick={handleMenu}>
-                                Menu
+                                {state.menuName}
                             </button>
                         </div>
                     </div>
