@@ -1,8 +1,75 @@
-import React from 'react'
-import { Link } from 'react-router-dom'
+import React, { useState, useEffect } from 'react'
+import { withRouter, Link } from 'react-router-dom'
 import Hamburger from './Hamburger'
 
-const Header = () => {
+const Header = ({ history }) => {
+
+    // # States
+    const [state, setState] = useState({
+        initial: false,
+        clicked: null,
+        menuName: 'Menu'
+    })
+    console.log(state);
+
+    const [disabled, setDisabled] = useState(false)
+
+
+    // # Menu
+    const handleMenu = () => {
+
+        if (state.initial === false) return setState({
+            initial: null,
+            clicked: true,
+            menuName: 'Close'
+        })
+
+        // if (state.clicked) return setState({
+        //     ...state,
+        //     clicked: !state.clicked,
+        //     menuName: 'Menu'
+        // })
+
+        // if (!state.clicked) return setState({
+        //     ...state,
+        //     clicked: !state.clicked,
+        //     menuName: 'Close'
+        // })
+
+
+        state.clicked
+            ? setState({
+                ...state,
+                clicked: !state.clicked,
+                menuName: 'Menu'
+            })
+            : setState({
+                ...state,
+                clicked: !state.clicked,
+                menuName: 'Close'
+            })
+    }
+
+    // # Determine if our menu button should be disabled.
+    const disableMenu = () => {
+        setDisabled(!disabled)
+        setTimeout(() => {
+            setDisabled(false)
+        }, 1200)
+    }
+
+
+    // # Effect for page changes
+    useEffect(() => {
+        history.listen(() => {
+            setState({
+                ...state,
+                clicked: false,
+                menuName: 'Menu'
+            })
+        })
+    }, [])
+
     return (
         <header>
             <div className="container">
@@ -12,14 +79,16 @@ const Header = () => {
                             <Link to="/">HAMBRG.</Link>
                         </div>
                         <div className="menu">
-                            <button>Menu</button>
+                            <button disabled={disabled} onClick={handleMenu}>
+                                Menu
+                            </button>
                         </div>
                     </div>
                 </div>
             </div>
-            <Hamburger />
+            <Hamburger state={state} />
         </header>
     )
 }
 
-export default Header
+export default withRouter(Header)
